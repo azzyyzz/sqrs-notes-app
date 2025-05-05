@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit.components.v1 import html
 import requests
 from requests.exceptions import RequestException
 import extra_streamlit_components as stx
@@ -30,7 +29,7 @@ def login():
                 st.session_state.username = username
                 st.session_state.cookie_manager.set("auth_token", token)
                 time.sleep(5)
-                cookies = st.session_state.cookie_manager.get_all(key="login")
+                st.session_state.cookie_manager.get_all(key="login")
                 st.success("Logged in successfully!")
                 st.rerun()
             else:
@@ -98,7 +97,9 @@ def notes_app():
                 response = requests.post(
                     f"{API_URL}/notes/",
                     json={"title": title, "content": content},
-                    headers={"Authorization": f"Bearer {st.session_state.token}"}
+                    headers={
+                        "Authorization": f"Bearer {st.session_state.token}"
+                    }
                 )
                 if response.status_code == 200:
                     st.success("Note added!")
@@ -111,7 +112,9 @@ def notes_app():
     try:
         notes = requests.get(
             f"{API_URL}/notes/",
-            headers={"Authorization": f"Bearer {st.session_state.token}"}
+            headers={
+                "Authorization": f"Bearer {st.session_state.token}"
+            }
         ).json()
 
         for note in notes:
@@ -119,15 +122,19 @@ def notes_app():
                 st.write(note['content'])
 
                 # Translation
-                if st.button("Translate to Russian", key=f"translate_{note['id']}"):
+                if st.button("Translate to Russian",
+                             key=f"translate_{note['id']}"):
                     try:
                         translated = requests.post(
                             f"{API_URL}/translate/",
                             json={"text": note['content']},
-                            headers={"Authorization": f"Bearer {st.session_state.token}"}
+                            headers={
+                                "Authorization":
+                                    f"Bearer {st.session_state.token}"
+                            }
                         ).json()
                         st.write("Translation:", translated['translated_text'])
-                    except Exception as e:
+                    except Exception:
                         st.error("Translation failed")
 
                 # Edit and Delete
@@ -143,7 +150,10 @@ def notes_app():
                         try:
                             response = requests.delete(
                                 f"{API_URL}/notes/{note['id']}",
-                                headers={"Authorization": f"Bearer {st.session_state.token}"}
+                                headers={
+                                    "Authorization":
+                                        f"Bearer {st.session_state.token}"
+                                }
                             )
                             if response.status_code == 200:
                                 st.success("Note deleted!")
@@ -160,15 +170,23 @@ def notes_app():
     if 'edit_note_id' in st.session_state:
         with st.form("edit_note"):
             st.write("Edit Note")
-            edit_title = st.text_input("Title", value=st.session_state.edit_title)
-            edit_content = st.text_area("Content", value=st.session_state.edit_content)
+            edit_title = st.text_input(
+                "Title",
+                value=st.session_state.edit_title
+            )
+            edit_content = st.text_area(
+                "Content",
+                value=st.session_state.edit_content
+            )
             submitted = st.form_submit_button("Update")
             if submitted:
                 try:
                     response = requests.put(
                         f"{API_URL}/notes/{st.session_state.edit_note_id}",
                         json={"title": edit_title, "content": edit_content},
-                        headers={"Authorization": f"Bearer {st.session_state.token}"}
+                        headers={
+                            "Authorization": f"Bearer {st.session_state.token}"
+                        }
                     )
                     if response.status_code == 200:
                         st.success("Note updated!")
