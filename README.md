@@ -6,5 +6,5 @@ Python app to keep track of your notes. You can also translate your English note
 
 1. `pip install poetry`
 2. `poetry install`
-3. `poetry run python backend/app/main.py` - Run backend
-4. `poetry run python frontend/app.py` - Run frontend
+3. `poetry run uvicorn backend.app.main:app --reload` - Run backend
+4. `poetry run streamlit run frontend/app.py` - Run frontend
