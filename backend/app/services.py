@@ -18,7 +18,8 @@ def translate_text(text: str, source: str = "en", target: str = "ru"):
             "x-rapidapi-host": "deep-translate1.p.rapidapi.com",
             "Content-Type": "application/json"
         }
-        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        response = requests.post(url,
+                                 json=payload, headers=headers, timeout=10)
         return response.json()["data"]["translations"]["translatedText"][0]
     except Exception as e:
         raise Exception(f"Translation failed: {str(e)}")

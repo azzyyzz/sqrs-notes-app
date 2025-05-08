@@ -1,5 +1,3 @@
-import os
-import sys
 import pytest
 from datetime import timedelta
 from unittest.mock import patch, MagicMock, AsyncMock
