@@ -1,6 +1,5 @@
 [tool.poetry]
 name = "notes-app"
-package-mode = false
 version = "0.1.0"
 description = "Simple Notes App"
 authors = [
