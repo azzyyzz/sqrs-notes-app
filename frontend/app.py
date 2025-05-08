@@ -21,7 +21,8 @@ def login():
         try:
             response = requests.post(
                 f"{API_URL}/token",
-                json={"username": username, "password": password}
+                json={"username": username, "password": password},
+                timeout=10
             )
             if response.status_code == 200:
                 token = response.json()["access_token"]
@@ -46,7 +47,8 @@ def check_login():
             # Verify token with backend
             response = requests.get(
                 f"{API_URL}/users/me",
-                headers={"Authorization": f"Bearer {token}"}
+                headers={"Authorization": f"Bearer {token}"},
+                timeout=10
             )
             if response.status_code == 200:
                 st.session_state.token = token
@@ -72,7 +74,8 @@ def signup():
         try:
             response = requests.post(
                 f"{API_URL}/users/",
-                json={"username": username, "password": password}
+                json={"username": username, "password": password},
+                timeout=10
             )
             if response.status_code == 200:
                 st.success("Account created successfully! Please login.")
@@ -99,7 +102,8 @@ def notes_app():
                     json={"title": title, "content": content},
                     headers={
                         "Authorization": f"Bearer {st.session_state.token}"
-                    }
+                    },
+                    timeout=10
                 )
                 if response.status_code == 200:
                     st.success("Note added!")
@@ -114,7 +118,8 @@ def notes_app():
             f"{API_URL}/notes/",
             headers={
                 "Authorization": f"Bearer {st.session_state.token}"
-            }
+            },
+            timeout=10
         ).json()
 
         for note in notes:
@@ -131,7 +136,8 @@ def notes_app():
                             headers={
                                 "Authorization":
                                     f"Bearer {st.session_state.token}"
-                            }
+                            },
+                            timeout=10
                         ).json()
                         st.write("Translation:", translated['translated_text'])
                     except Exception:
@@ -153,7 +159,8 @@ def notes_app():
                                 headers={
                                     "Authorization":
                                         f"Bearer {st.session_state.token}"
-                                }
+                                },
+                                timeout=10
                             )
                             if response.status_code == 200:
                                 st.success("Note deleted!")
@@ -186,7 +193,8 @@ def notes_app():
                         json={"title": edit_title, "content": edit_content},
                         headers={
                             "Authorization": f"Bearer {st.session_state.token}"
-                        }
+                        },
+                        timeout=10
                     )
                     if response.status_code == 200:
                         st.success("Note updated!")
