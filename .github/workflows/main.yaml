@@ -81,7 +81,7 @@ jobs:
     - name: Run flake8
       run: |
         cd frontend
-        poetry run flake8 app/ --count --show-source --statistics
+        poetry run flake8 app.py --count --show-source --statistics
     
     - name: Run bandit
       run: |
