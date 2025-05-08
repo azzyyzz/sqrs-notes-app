@@ -43,7 +43,7 @@ jobs:
     - name: Install dependencies
       run: |
         cd backend
-        poetry install --no-interaction --with dev
+        poetry install
     
     - name: Run flake8
       run: |
