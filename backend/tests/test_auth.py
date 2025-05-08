@@ -5,9 +5,6 @@ from datetime import timedelta
 from unittest.mock import patch, MagicMock, AsyncMock
 from fastapi import HTTPException, status
 
-# Add the parent directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from app import models
 from app.auth import (
     verify_password,
@@ -122,8 +119,8 @@ def test_create_access_token_with_expiry():
 async def test_get_current_user_valid_token(sample_user, valid_token):
     # Mock just the get_user function to return our sample user
     with patch('app.auth.get_user', return_value=sample_user), \
-         patch('app.auth.oauth2_scheme',
-               new_callable=AsyncMock) as mock_scheme:
+        patch('app.auth.oauth2_scheme',
+              new_callable=AsyncMock) as mock_scheme:
         mock_scheme.return_value = valid_token
         user = await get_current_user(token=valid_token)
         assert user == sample_user

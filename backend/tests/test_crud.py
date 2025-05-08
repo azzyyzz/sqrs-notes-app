@@ -7,8 +7,8 @@ from sqlalchemy.pool import StaticPool
 
 
 # Now import from app
-from ..app import models, schemas
-from ..app.crud import (
+from app import models, schemas
+from app.crud import (
     get_note,
     get_notes,
     create_note,
