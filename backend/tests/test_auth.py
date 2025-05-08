@@ -1,7 +1,12 @@
+import os
+import sys
 import pytest
 from datetime import timedelta
 from unittest.mock import patch, MagicMock, AsyncMock
 from fastapi import HTTPException, status
+
+# Add the parent directory to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app import models
 from app.auth import (
